@@ -4,7 +4,8 @@ on: [push]
 jobs:
   build_llvm:
     runs-on: windows-2022
-    steps:  
+    steps:
+    
       - name: Checkout LLVM
         run: git clone --depth 1 --branch llvmorg-17.0.6 https://github.com/llvm/llvm-project.git
         
@@ -16,10 +17,12 @@ jobs:
 
       - name: Install LLVM
         run: cmake --install llvm-project/build --prefix $GITHUB_WORKSPACE/llvm+clang+lld-17.0.6-x86_64-windows-msvc-release-mt
-
+ 
       - name: Zip LLVM
-        run: zip llvm+clang+lld-17.0.6-x86_64-windows-msvc-release-mt.zip $GITHUB_WORKSPACE/llvm+clang+lld-17.0.6-x86_64-windows-msvc-release-mt -r
-
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r llvm+clang+lld-17.0.6-x86_64-windows-msvc-release-mt.zip -d $GITHUB_WORKSPACE/llvm+clang+lld-17.0.6-x86_64-windows-msvc-release-mt
+    
       - name: Save Artifacts
         uses: actions/upload-artifact@v3
         with:
