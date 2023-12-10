@@ -1,0 +1,37 @@
+name: CMake
+
+on: [push]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        platform: [windows-2022]
+        arch: [x64]
+       
+    - name: Checkout LLVM
+      run: git clone --depth 1 --branch llvmorg-17.0.6 https://github.com/llvm/llvm-project.git
+    
+    - name: Configure LLVM
+      run: cmake -S llvm-project/llvm -B llvm-project/build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DLLVM_ENABLE_PROJECTS="llvm;clang;lld"
+
+    - name: Build LLVM
+      run: cmake --build . --config $BUILD_TYPE
+
+    - name: Install LLVM
+      run: cmake --install llvm-project/build --prefix $GITHUB_WORKSPACE/llvm+clang+lld-17.0.6-x86_64-windows-msvc-release-mt
+
+    - name: Zip LLVM
+      run: zip llvm+clang+lld-17.0.6-x86_64-windows-msvc-release-mt.zip $GITHUB_WORKSPACE/llvm+clang+lld-17.0.6-x86_64-windows-msvc-release-mt -r
+
+    - name: Save Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: LLVM
+        path: ${{runner.workspace}}/*.zip
+        retention-days: 3
+
