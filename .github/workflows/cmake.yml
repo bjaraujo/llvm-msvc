@@ -12,7 +12,7 @@ jobs:
         run: cmake -S llvm-project/llvm -B llvm-project/build -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="llvm;clang;lld"
 
       - name: Build LLVM
-        run: cmake --build . --config Release
+        run: cmake --build llvm-project/build --config Release
 
       - name: Install LLVM
         run: cmake --install llvm-project/build --prefix $GITHUB_WORKSPACE/llvm+clang+lld-17.0.6-x86_64-windows-msvc-release-mt
