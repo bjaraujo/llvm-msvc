@@ -10,7 +10,7 @@ jobs:
         run: git clone --depth 1 --branch llvmorg-17.0.6 https://github.com/llvm/llvm-project.git
         
       - name: Configure LLVM
-        run: cmake -S llvm-project/llvm -B llvm-project/build -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="llvm;clang;lld"
+        run: cmake -S llvm-project/llvm -B llvm-project/build -DCMAKE_BUILD_TYPE=Release -DLLVM_USE_CRT_RELEASE=MT -DLLVM_ENABLE_PROJECTS="llvm;clang;lld"
 
       - name: Build LLVM
         run: cmake --build llvm-project/build --config Release
