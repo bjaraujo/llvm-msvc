@@ -7,13 +7,6 @@ jobs:
     env:
       LLVM_VERSION: "19.1.5"
     steps:    
-      - name: Set up Visual Studio Dev Environment
-        uses: TheMrMilchmann/setup-msvc-dev@v3
-        with:
-          arch: x64
-          toolset: latest
-          vs-path: 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools'
-          
       - name: Checkout LLVM
         run: git clone --depth 1 --branch llvmorg-${{ env.LLVM_VERSION }} https://github.com/llvm/llvm-project.git
         
