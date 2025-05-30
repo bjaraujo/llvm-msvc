@@ -5,13 +5,13 @@ jobs:
   build_llvm:
     runs-on: windows-latest
     env:
-      LLVM_VERSION: "20.1.5"
+      LLVM_VERSION: "20.1.6"
     steps:    
       - name: Checkout LLVM
         run: git clone --depth 1 --branch llvmorg-${{ env.LLVM_VERSION }} https://github.com/llvm/llvm-project.git
         
       - name: Configure LLVM
-        run: cmake -S llvm-project/llvm -B llvm-project/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DLLVM_USE_CRT_RELEASE=MT -DLLVM_ENABLE_PROJECTS="llvm;clang;lld"
+        run: cmake -S llvm-project/llvm -B llvm-project/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded -DLLVM_ENABLE_PROJECTS="llvm;clang;lld;libcxx"
 
       - name: Build LLVM
         run: cmake --build llvm-project/build --config Release
